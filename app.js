@@ -11,6 +11,10 @@
   const prog = $('[data-prog]');
   if (prog) { const upd = () => { const max = document.documentElement.scrollHeight - innerHeight; prog.style.top = (100 * Math.min(1, Math.max(0, scrollY / max))) + '%'; }; addEventListener('scroll', upd, { passive: true }); upd(); }
 
+  /* видео hero: горизонтальное или вертикальное по ширине экрана */
+  const hv = $('[data-hero-video]');
+  if (hv) { const mob = matchMedia('(max-width: 900px)').matches; hv.poster = mob ? hv.dataset.posterM : hv.dataset.posterD; hv.src = mob ? hv.dataset.mobile : hv.dataset.desktop; hv.load(); const tryPlay = () => hv.play().catch(() => {}); tryPlay(); addEventListener('touchstart', tryPlay, { once: true, passive: true }); }
+
   /* планка */
   const bar = $('[data-bar]');
   const onBar = () => bar.classList.toggle('is-on', scrollY > innerHeight * .85);

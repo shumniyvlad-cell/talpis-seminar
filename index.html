@@ -25,8 +25,8 @@
 <!-- 01 · HERO -->
 <section class="hero" id="top">
   <div class="hero__bg">
-    <video class="hero__video" autoplay muted loop playsinline poster="assets/hero/bg.jpg" aria-hidden="true"><source src="assets/hero/bg.mp4" type="video/mp4"></video>
-    <img class="hero__bgm" src="assets/hero/bg-m.jpg" alt="" aria-hidden="true">
+    <video class="hero__video" autoplay muted loop playsinline preload="auto" aria-hidden="true" data-hero-video data-desktop="assets/hero/bg.mp4" data-mobile="assets/hero/bg-m.mp4" data-poster-d="assets/hero/bg.jpg" data-poster-m="assets/hero/bg-m.jpg"></video>
+    <div class="hero__glow" aria-hidden="true"></div>
   </div>
   <div class="hero__labels" aria-hidden="true">
     <span style="--x:52%;--y:14%;--d:0s">Отношения</span><span style="--x:58%;--y:31%;--d:1.2s">Деньги</span><span style="--x:53%;--y:50%;--d:2.1s">Тело</span><span style="--x:60%;--y:68%;--d:.9s">Выбор</span><span style="--x:auto;right:3.5%;--y:22%;--d:.6s">Мысли</span><span style="--x:63%;--y:22%;--d:1.7s">Страхи</span><span style="--x:56%;--y:86%;--d:2.6s">Время</span>
@@ -85,7 +85,7 @@
     <h2 class="giant giant--sm" data-lines>Как проходит семинар</h2>
   </div>
   <figure class="bleed bleed--tall" data-wipe>
-    <img src="assets/video-poster.jpg" alt="Работа с людьми из зала" loading="lazy" data-parallax="0.12">
+    <img src="assets/stage.jpg" alt="Леонид Тальпис работает с залом" loading="lazy" data-parallax="0.12" style="object-position:50% 30%">
     <figcaption class="corner corner--bl">Работа с людьми из зала, Алматы</figcaption>
   </figure>
   <div class="wrap grid2 grid2--kak">
@@ -237,10 +237,10 @@
 
 <!-- 12 · ФИНАЛ -->
 <section class="final" id="vybor">
-  <img class="final__ph" src="assets/gen/web3/m7.jpg" alt="" loading="lazy" data-parallax="0.08">
+  <img class="final__ph" src="assets/gen/web3/m7.jpg" alt="" loading="lazy" data-parallax="0.06" style="object-position:70% 80%">
   <div class="wrap final__text">
     <p class="tag tag--light">Иногда свобода начинается с вопроса: «Это точно мой выбор?»</p>
-    <h2 class="giant" data-lines>Твоя жизнь — это точно твой <span class="nw">выбор<span class="qm">?</span></span></h2>
+    <h2 class="giant" data-lines>Твоя жизнь — это точно твой <span class="nw">выбор?</span></h2>
     <div class="cta"><a class="btn btn--orange" href="#formaty">Выбрать формат участия</a><span class="when">26−27 сентября 2026 · Алматы и онлайн</span></div>
   </div>
 </section>
