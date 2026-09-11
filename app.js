@@ -20,23 +20,20 @@
   const splitLines = el => {
     const tokens = [];
     [...el.childNodes].forEach(n => { if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(t => { if (t.trim()) { const s = document.createElement('span'); s.className = 'w'; s.textContent = t; tokens.push(s); } }); else if (n.nodeType === 1) tokens.push(n); });
-    el.textContent = ''; tokens.forEach((t, i) => { el.appendChild(t); if (i < tokens.length - 1) el.appendChild(document.createTextNode(' ')); });
+    el.textContent = ''; tokens.forEach((t, i) => { el.appendChild(t); const nx = tokens[i + 1]; if (nx && !/^[,.;:!?»)]/.test(nx.textContent)) el.appendChild(document.createTextNode(' ')); });
     const lines = []; let top = null;
     tokens.forEach(t => { const y = t.offsetTop; if (top === null || Math.abs(y - top) > 4) { lines.push([]); top = y; } lines[lines.length - 1].push(t); });
     el.textContent = '';
-    lines.forEach((ws, li) => { const ln = document.createElement('span'); ln.className = 'ln'; const inner = document.createElement('span'); inner.style.transitionDelay = (li * 90) + 'ms'; ws.forEach((t, i) => { inner.appendChild(t); if (i < ws.length - 1) inner.appendChild(document.createTextNode(' ')); }); ln.appendChild(inner); el.appendChild(ln); });
+    lines.forEach((ws, li) => { const ln = document.createElement('span'); ln.className = 'ln'; const inner = document.createElement('span'); inner.style.transitionDelay = (li * 90) + 'ms'; ws.forEach((t, i) => { inner.appendChild(t); const nx = ws[i + 1]; if (nx && !/^[,.;:!?»)]/.test(nx.textContent)) inner.appendChild(document.createTextNode(' ')); }); ln.appendChild(inner); el.appendChild(ln); });
   };
   const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
   ready.then(() => {
     $$('[data-lines]').forEach(splitLines);
     const els = $$('[data-lines], [data-wipe], [data-stagger]');
     if (reduce) { els.forEach(e => e.classList.add('is-in')); return; }
-    const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; io.unobserve(el); if (el.hasAttribute('data-stagger')) [...el.children].forEach((c, i) => c.style.transitionDelay = (i * 70) + 'ms'); el.classList.add('is-in'); if (el.classList.contains('giant')) setTimeout(() => $$('.ln>span', el).forEach(s => s.style.transition = 'transform .25s linear'), 1300); }), { threshold: .12 });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; io.unobserve(el); if (el.hasAttribute('data-stagger')) [...el.children].forEach((c, i) => c.style.transitionDelay = (i * 70) + 'ms'); el.classList.add('is-in'); }), { threshold: .12 });
     els.forEach(e => io.observe(e));
   });
-
-  /* кинетика строк гигантских заголовков */
-  if (!reduce) { const kin = () => $$('.giant.is-in').forEach(g => { const r = g.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight; $$('.ln>span', g).forEach((s, i) => s.style.transform = `translateX(${p * (i % 2 ? 26 : -26)}px)`); }); addEventListener('scroll', kin, { passive: true }); }
 
   /* счётчики */
   const counters = $$('[data-count]');
@@ -68,27 +65,6 @@
   const startLoop = fn => { if (shot) { fn(performance.now()); ATLAS.forEach(i => { const re = () => fn(performance.now()); if (i.complete) re(); else i.addEventListener('load', re, { once: true }); }); } else requestAnimationFrame(fn); };
   const next = fn => { if (!shot) requestAnimationFrame(fn); };
 
-  $$('[data-walk]').forEach(cv => {
-    const ctx = cv.getContext('2d'); const col = '#F4EFE6', lineCol = 'rgba(244,239,230,.35)';
-    let W = 0, H = 0, dpr = 1; const walkers = [];
-    const size = () => { dpr = Math.min(2, devicePixelRatio || 1); W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
-    size(); addEventListener('resize', size);
-    for (let i = 0; i < 7; i++) walkers.push({ a: i % 6, x: Math.random() * W, s: .13 + Math.random() * .1, v: 22 + Math.random() * 26, f: Math.floor(Math.random() * 8), t: 0, gap: 90 + Math.random() * 40 });
-    let last = performance.now();
-    const draw = now => {
-      const dt = Math.min(50, now - last); last = now;
-      if (!shot && (!onScreen(cv) || reduce)) { requestAnimationFrame(draw); return; }
-      ctx.clearRect(0, 0, W, H); const base = H * .74, dotX = W * .64;
-      ctx.strokeStyle = lineCol; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(0, base + .5); ctx.lineTo(W, base + .5); ctx.stroke();
-      const pulse = (Math.sin(now / 700) + 1) / 2;
-      ctx.fillStyle = `rgba(217,110,43,${.14 + pulse * .1})`; ctx.beginPath(); ctx.arc(dotX, base, 16 + pulse * 10, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#D96E2B'; ctx.beginPath(); ctx.arc(dotX, base, 6, 0, Math.PI * 2); ctx.fill();
-      walkers.sort((p, q) => p.s - q.s).forEach(w => { const img = ATLAS[w.a]; if (!img.complete || !img.naturalWidth) return; w.x += w.v * dt / 1000 * (w.s / .18); if (w.x > W + 80) w.x = -120; w.t += dt; if (w.t > w.gap) { w.t = 0; w.f = (w.f + 1) % 8; }
-        const h = FH * w.s, wdt = FW * w.s, near = Math.abs(w.x - dotX) < 60; ctx.globalAlpha = .55 + w.s; ctx.drawImage(tinted(img, near ? '#D96E2B' : col), w.f * FW, 0, FW, FH, w.x - wdt / 2, base - h + 4, wdt, h); ctx.globalAlpha = 1; });
-      next(draw);
-    };
-    startLoop(draw);
-  });
 
   const sc = $('[data-scheme]');
   if (sc) {
@@ -107,7 +83,7 @@
       const pos = pts.map(p => { const wob = Math.sin(t * .6 + p.ph) * .012; return { x: cx + Math.cos(p.a) * (p.r + wob) * R * 1.6 * spread, y: cy + Math.sin(p.a) * (p.r + wob) * R * .9 * spread, p }; });
       pos.forEach(({ x, y, p }) => { ctx.strokeStyle = `rgba(244,239,230,${.22 * p.alive})`; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(x, y); ctx.stroke(); });
       const pulse = (Math.sin(now / 700) + 1) / 2; ctx.fillStyle = `rgba(217,110,43,${.14 + pulse * .1})`; ctx.beginPath(); ctx.arc(cx, cy, 18 + pulse * 10, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#D96E2B'; ctx.beginPath(); ctx.arc(cx, cy, 7, 0, Math.PI * 2); ctx.fill();
-      pos.forEach(({ x, y, p }) => { const img = ATLAS[p.atlas]; if (!img.complete || !img.naturalWidth) return; const s = Math.max(.13, Math.min(.24, H / 2100)), h = FH * s, w = FW * s; ctx.globalAlpha = Math.max(0, p.alive) * .92; ctx.drawImage(tinted(img, '#F4EFE6'), 3 * FW, 0, FW, FH, x - w / 2, y - h + 6, w, h); ctx.globalAlpha = 1; ctx.fillStyle = `rgba(244,239,230,${.6 * p.alive})`; ctx.beginPath(); ctx.arc(x, y + 6, 2.5, 0, Math.PI * 2); ctx.fill(); });
+      pos.forEach(({ x, y, p }) => { const a = Math.max(0, p.alive); ctx.fillStyle = `rgba(244,239,230,${.16 * a})`; ctx.beginPath(); ctx.arc(x, y, 14, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = `rgba(244,239,230,${.95 * a})`; ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fill(); });
       next(draw);
     };
     startLoop(draw);

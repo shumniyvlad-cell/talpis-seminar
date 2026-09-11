@@ -8,7 +8,7 @@
 <link rel="icon" href="assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800;900&family=Inter:wght@400;500;600&family=Prata&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,22 +24,24 @@
 
 <!-- 01 · HERO -->
 <section class="hero" id="top">
-  <div class="hero__ph">
-    <img src="assets/stage.jpg" alt="Леонид Тальпис на семинаре" fetchpriority="high" data-parallax="0.15">
-    <div class="corner corner--tl">Мировоззренческий семинар<br>Леонида Тальписа</div>
-    <div class="corner corner--tr">26–27 сентября 2026<br>Алматы · онлайн</div>
-    <div class="corner corner--bl">Алматы, прошлый семинар</div>
-    <div class="corner corner--br" data-hint>Листайте</div>
-    <canvas class="walk" data-walk aria-hidden="true"></canvas>
+  <div class="hero__bg">
+    <video class="hero__video" autoplay muted loop playsinline poster="assets/hero/bg.jpg" aria-hidden="true"><source src="assets/hero/bg.mp4" type="video/mp4"></video>
+    <img class="hero__bgm" src="assets/hero/bg-m.jpg" alt="" aria-hidden="true">
   </div>
-  <div class="hero__type">
-    <div class="wrap">
-      <h1 class="giant" data-lines>Два дня, чтобы увидеть, что на самом деле управляет вашей жизнью</h1>
-      <div class="hero__row">
-        <p class="lead">Не теория. Не абстрактные знания. Не ещё один разговор о том, «как правильно жить». Это возможность посмотреть, из чего на самом деле складывается ваша жизнь.</p>
-        <div class="cta"><a class="btn btn--orange" href="#formaty">Выбрать формат участия</a><a class="btn btn--ghost" href="#upravlyaet">О семинаре</a></div>
-      </div>
+  <div class="hero__labels" aria-hidden="true">
+    <span style="--x:52%;--y:14%;--d:0s">Отношения</span><span style="--x:58%;--y:31%;--d:1.2s">Деньги</span><span style="--x:53%;--y:50%;--d:2.1s">Тело</span><span style="--x:60%;--y:68%;--d:.9s">Выбор</span><span style="--x:auto;right:3.5%;--y:22%;--d:.6s">Мысли</span><span style="--x:63%;--y:22%;--d:1.7s">Страхи</span><span style="--x:56%;--y:86%;--d:2.6s">Время</span>
+  </div>
+  <div class="hero__leowrap"><img class="hero__leo" src="assets/hero/leonid.webp" alt="Леонид Тальпис" fetchpriority="high"></div>
+  <div class="hero__inner">
+    <div class="hero__top"><a class="hero__mark" href="#top">Тальпис<i></i></a><span class="hero__meta">26–27 сентября 2026 · Алматы и онлайн</span></div>
+    <div class="hero__text">
+      <p class="hero__kicker">Мировоззренческий семинар Леонида Тальписа</p>
+      <h1 class="hero__h1" data-lines><em>Два дня</em>, чтобы увидеть, что на самом деле <em>управляет</em> вашей жизнью</h1>
+      <p class="hero__lead">Это не ещё один разговор о том, «как правильно жить», а возможность увидеть, из чего на самом деле складывается ваша текущая реальность.</p>
+      <p class="hero__date"><b>26–27 сентября 2026</b> · Алматы + онлайн</p>
+      <div class="cta"><a class="btn btn--orange" href="#formaty">Выбрать формат участия</a><a class="btn btn--ghostdark" href="#upravlyaet">О семинаре</a></div>
     </div>
+    <p class="hero__tagline">Тебе можно больше<i></i></p>
   </div>
 </section>
 
@@ -135,7 +137,7 @@
       <img src="assets/gen/web3/m3.jpg" alt="" data-story-img="3" loading="lazy">
       <img src="assets/demo.jpg" alt="" data-story-img="4" loading="lazy">
       <img src="assets/gen/web3/m1.jpg" alt="" data-story-img="5" loading="lazy">
-      <img src="assets/gen/web3/m6.jpg" alt="" data-story-img="6" loading="lazy">
+      <img src="assets/gen/web3/m7.jpg" alt="" data-story-img="6" loading="lazy">
     </div>
     <ol class="story__list">
       <li data-story-item="0"><i>01</i><b>Отношения</b><span>Почему мы выбираем именно этих людей. Почему хотим близости и одновременно защищаемся от неё.</span></li>
@@ -163,16 +165,15 @@
       <p class="lead">Иногда чужая история позволяет увидеть о себе то, чего мы годами не замечали в собственной.</p>
     </div>
   </div>
-  <div class="wrap grid2 grid2--scheme">
+  <div class="wrap">
     <div class="scheme"><canvas data-scheme aria-hidden="true"></canvas><p class="scheme__cap">Схема встаёт в пространстве: люди из зала занимают места фигур из истории человека. Убирается одна — и картина меняется.</p></div>
-    <figure class="ph ph--tall2" data-wipe><img src="assets/gen/web3/m5.jpg" alt="" loading="lazy"></figure>
   </div>
 </section>
 
 <!-- 08 · ВОЗМОЖНО -->
 <section class="sec" id="vozmozhno">
   <figure class="bleed bleed--tall" data-wipe>
-    <img src="assets/gen/web3/m6.jpg" alt="" loading="lazy" data-parallax="0.1">
+    <img src="assets/leonid-sofa.jpg" alt="Леонид Тальпис" loading="lazy" data-parallax="0.1" style="object-position:50% 35%">
     <figcaption class="bleed__cap bleed__cap--wide">
       <p class="tag">Возможно</p>
       <h2 class="st st--xl" data-lines>Возможно, вам не нужно становиться <em>другим</em> человеком</h2>
@@ -190,7 +191,6 @@
   <div class="wrap grid2 grid2--author">
     <div class="author__phs">
       <figure class="ph ph--author" data-wipe><img src="assets/leonid-portrait.jpg" alt="Леонид Тальпис" loading="lazy"></figure>
-      <figure class="ph ph--author2" data-wipe><img src="assets/leonid-chair.jpg" alt="Леонид Тальпис" loading="lazy"></figure>
     </div>
     <div class="stack">
       <p class="tag">Автор и ведущий мировоззренческого семинара</p>
@@ -221,7 +221,7 @@
 <!-- 11 · ВОПРОСЫ -->
 <section class="sec" id="faq">
   <div class="wrap grid2 grid2--faq">
-    <div class="stack"><p class="tag">Вопросы</p><h2 class="st" data-lines>Что спрашивают перед семинаром</h2><figure class="ph ph--wide" data-wipe><img src="assets/leonid-sofa.jpg" alt="Леонид Тальпис" loading="lazy"></figure></div>
+    <div class="stack"><p class="tag">Вопросы</p><h2 class="st" data-lines>Что спрашивают перед семинаром</h2><figure class="ph ph--wide" data-wipe><img src="assets/leonid-chair.jpg" alt="Леонид Тальпис" loading="lazy" style="object-position:60% 50%"></figure></div>
     <div class="faq">
       <details><summary>Это психологическая консультация или групповая работа?</summary><p>Нет. Это обучающий мировоззренческий семинар с живыми демонстрациями. Он не заменяет помощь врача или психолога и не является медицинской услугой.</p></details>
       <details><summary>Придётся выходить на сцену и рассказывать личное?</summary><p>Нет. На разбор выходят только те, кто сам хочет. Можно оба дня быть наблюдателем — свой механизм видно и в чужом разборе.</p></details>
@@ -239,11 +239,10 @@
 <section class="final" id="vybor">
   <img class="final__ph" src="assets/gen/web3/m7.jpg" alt="" loading="lazy" data-parallax="0.08">
   <div class="wrap final__text">
-    <p class="tag">Иногда свобода начинается с вопроса: «Это точно мой выбор?»</p>
+    <p class="tag tag--light">Иногда свобода начинается с вопроса: «Это точно мой выбор?»</p>
     <h2 class="giant" data-lines>Твоя жизнь — это точно твой <span class="nw">выбор<span class="qm">?</span></span></h2>
     <div class="cta"><a class="btn btn--orange" href="#formaty">Выбрать формат участия</a><span class="when">26−27 сентября 2026 · Алматы и онлайн</span></div>
   </div>
-  <canvas class="walk walk--final" data-walk aria-hidden="true"></canvas>
 </section>
 
 <footer class="foot">
