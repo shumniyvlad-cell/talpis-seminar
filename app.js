@@ -5,6 +5,12 @@
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches || shot;
 
+  /* интро-занавес и прогресс-точка */
+  const intro = $('[data-intro]');
+  if (intro) { if (reduce) intro.remove(); else { document.documentElement.style.overflow = 'hidden'; setTimeout(() => { intro.classList.add('is-off'); document.documentElement.style.overflow = ''; setTimeout(() => intro.remove(), 1100); }, 1250); } }
+  const prog = $('[data-prog]');
+  if (prog) { const upd = () => { const max = document.documentElement.scrollHeight - innerHeight; prog.style.top = (100 * Math.min(1, Math.max(0, scrollY / max))) + '%'; }; addEventListener('scroll', upd, { passive: true }); upd(); }
+
   /* планка */
   const bar = $('[data-bar]');
   const onBar = () => bar.classList.toggle('is-on', scrollY > innerHeight * .85);
@@ -25,9 +31,12 @@
     $$('[data-lines]').forEach(splitLines);
     const els = $$('[data-lines], [data-wipe], [data-stagger]');
     if (reduce) { els.forEach(e => e.classList.add('is-in')); return; }
-    const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; io.unobserve(el); if (el.hasAttribute('data-stagger')) [...el.children].forEach((c, i) => c.style.transitionDelay = (i * 70) + 'ms'); el.classList.add('is-in'); }), { threshold: .12 });
+    const io = new IntersectionObserver(es => es.forEach(e => { if (!e.isIntersecting) return; const el = e.target; io.unobserve(el); if (el.hasAttribute('data-stagger')) [...el.children].forEach((c, i) => c.style.transitionDelay = (i * 70) + 'ms'); el.classList.add('is-in'); if (el.classList.contains('giant')) setTimeout(() => $$('.ln>span', el).forEach(s => s.style.transition = 'transform .25s linear'), 1300); }), { threshold: .12 });
     els.forEach(e => io.observe(e));
   });
+
+  /* кинетика строк гигантских заголовков */
+  if (!reduce) { const kin = () => $$('.giant.is-in').forEach(g => { const r = g.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return; const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight; $$('.ln>span', g).forEach((s, i) => s.style.transform = `translateX(${p * (i % 2 ? 26 : -26)}px)`); }); addEventListener('scroll', kin, { passive: true }); }
 
   /* счётчики */
   const counters = $$('[data-count]');
